@@ -1,0 +1,110 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 950,
+  "height": 500,
+  "title": {
+    "text" : "Distribution of Metric Scores in Every Continent",
+    "subtitle": "Based on THE University Rankings in 2016",
+    "fontSize": 24,
+    "subtitleFontSize": 15},
+  "data": {
+    "url": "https://raw.githubusercontent.com/wtah0001/FIT3179_Homework_9/main/data/viz2_data.csv"
+  },
+  "params": [
+    {
+      "name": "Continent_selection",
+      "value": "Asia",
+      "bind": {
+        "input": "select",
+        "options": [
+          "North America",
+          "South America",
+          "Europe",
+          "Africa",
+          "Asia",
+          "Oceania"
+        ],
+        "labels":[
+          "North America",
+          "South America",
+          "Europe",
+          "Africa",
+          "Asia",
+          "Oceania"
+        ],
+        "name": "Continent Selection: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.year == 2016"},
+    {"filter": "datum.continent == Continent_selection"},
+    {
+      "calculate": "100/7.5*(datum.total_score - datum.teaching*30/100 - datum.research*30/100 - datum.citations*30/100 - datum.income*2.5/100)",
+      "as": "International outlook"
+    },
+    {"calculate": "datum.income", "as": "Industry income"},
+    {"calculate": "datum.citations", "as": "Citations"},
+    {"calculate": "datum.teaching", "as": "Teaching"},
+    {"calculate": "datum.research", "as": "Research"},
+    {"fold": ["Teaching","Research","Citations"]},
+    {"calculate": "datum.key", "as": "Score metric"}
+  ],
+  "mark": {"type": "boxplot", "size": 50, "orient": "horizontal"},
+  "encoding": {
+    "y": {
+      "field": "Score metric",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Citations",
+          "Research",
+          "Teaching"
+        ]
+      },
+      "axis": {"titleFontSize": 18, "labelFontSize": 18, "grid": false, "labelAngle": 0, "labelFontWeight": "bold","title": ""},
+      "title": "Score metric"
+    },
+    "color": {
+      "field": "Score metric",
+      "type": "nominal", 
+      "scale": {
+        "range": ["#fdc086","#386cb0","#bf5b17"]
+      },
+      "legend": {"title": "Score metric"}},
+    "x": {
+      "field": "value",
+      "type": "quantitative",
+      "title": "Score",
+      "scale":{"domainMin": 0,"domainMax": 100},
+      "axis": {"titleFontSize": 18, "labelFontSize": 15, "tickCount": 10}
+    },
+    "tooltip": [
+      {
+        "field": "university_name",
+        "type" : "nominal",
+        "title": "University name: "
+      },
+      {
+        "field": "country",
+        "type" : "nominal",
+        "title": "Country: "
+      },
+      {
+        "field": "world_rank_2",
+        "type" : "quantitative",
+        "title": "World Rank: "
+      },
+      {
+        "field": "total_score",
+        "type": "quantitative",
+        "title": "Total score: "
+      },
+      {
+        "field": "value",
+        "type": "quantitative",
+        "title": "Metric score: "
+      }
+    ]
+  }
+}

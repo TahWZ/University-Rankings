@@ -1,0 +1,195 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 950,
+  "height": 500,
+  "title": {
+    "text" : "Times Higher Education rankings",
+    "subtitle": "Weight distribution of total score",
+    "fontSize": 24,
+    "subtitleFontSize": 15},
+  "data": {
+    "url": "https://raw.githubusercontent.com/wtah0001/FIT3179_Homework_9/main/data/viz2_data.csv"
+  },
+  "params": [
+    {
+      "name": "Year",
+      "value": 2016,
+      "bind": {
+        "input": "range",
+        "min": 2011,
+        "max": 2016,
+        "step": 1,
+        "name": "Year: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.world_rank_2 <= 200" },
+    {"filter": "datum.year == Year" },
+    {"calculate": "datum.world_rank_2 <= 50 ? '1-50' : datum.world_rank_2 <= 100 ? '51-100' : datum.world_rank_2 <= 150 ? '101-150' : '151-200'","as": "label"},
+    { "calculate": "datum.teaching * 30/100" , "as": "teaching_score"},
+    { "calculate": "datum.research * 30/100" , "as": "research_score"},
+    { "calculate": "datum.citations * 30/100" , "as": "citations_score"},
+    { "calculate": "datum.income * 2.5/100" , "as": "income_score"},
+    { "calculate": "datum.total_score - datum.teaching_score - datum.research_score - datum.citations_score - datum.income_score" , 
+      "as": "outlook_score"},
+    { "calculate": "datum.outlook_score * 100/7.5" , 
+      "as": "outlook"},
+    {"calculate": "datum.income_score * 100/2.5", "as" : "income2"},
+    { "calculate": "datum.teaching_score" , "as": "bar1"},
+    { "calculate": "datum.bar1 + datum.research_score" , "as": "bar2"},
+    { "calculate": "datum.bar2 + datum.citations_score" , "as": "bar3"},
+    { "calculate": "datum.bar3 + datum.income_score" , "as": "bar4"},
+    { "calculate": "datum.bar4 + datum.outlook_score" , 
+      "as": "bar5"},
+    {"calculate": "'International outlook'", "as" : "outlook_label"},
+    {"calculate": "'Industry income'", "as" : "income_label"},
+    {"calculate": "'Citations'", "as" : "citations_label"},
+    {"calculate": "'Teaching'", "as" : "teaching_label"},
+    {"calculate": "'Research'", "as" : "research_label"},
+    {"calculate": "'2.5%'", "as" : "2_5_weight"},
+    {"calculate": "'7.5%'", "as" : "7_5_weight"},
+    {"calculate": "'30%'", "as" : "30_weight"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "label", 
+      "type": "nominal",
+      "sort": "descending",
+      "scale": {
+        "domain": [
+          "151-200",
+          "101-150",
+          "51-100", 
+          "1-50"
+        ]
+      },
+      "axis": {"titleFontSize": 18, "labelFontSize": 15, "grid": false, "labelAngle": 0},
+      "title": "Rank groups"
+    },
+    "y": { 
+      "aggregate": "mean",
+      "field": "total_score",
+      "type": "quantitative",
+      "scale":{"domainMin": 0,"domainMax": 100},
+      "axis": {"titleFontSize": 18, "labelFontSize": 15, "tickCount": 10},
+      "title": "Average Total Score"
+    },
+    "color": {
+      "field": "score_type",
+      "title": "Scoring metric",
+      "scale": {
+        "domain": ["Outlook", "Income", "Citations", "Research", "Teaching"],
+        "range": ["#7fc97f","#beaed4","#fdc086","#386cb0","#bf5b17"]
+      },
+      "legend": {
+        "labelExpr": "datum.label == 'Outlook' ? 'International outlook' : datum.label == 'Income' ? 'Industry income' :datum.label == 'Citations' ? 'Citations' : datum.label == 'Research' ? 'Research' : 'Teaching'"
+      }
+    }
+  },
+  "layer": [
+    {"mark": {"type": "bar", "width":50, "fill": "#7fc97f"},
+    "encoding": {
+      "x": {
+        "field": "label", 
+        "type": "nominal"},
+      "y": { 
+        "field": "bar5",
+        "type": "quantitative"},
+      "tooltip": [
+        {"field": "outlook_label", "type": "nominal", 
+        "title": "Scoring metric"},
+        {"field": "7_5_weight", "type": "nominal",
+          "title": "Weight"},
+        {"aggregate": "mean", "field": "outlook_score","format": ".4" ,"type": "quantitative", 
+        "title":"Weighted average score"},
+        {"aggregate": "mean", "field": "outlook","format": ".4" ,"type": "quantitative", 
+        "title":"Average score"}
+      ]
+    }},
+    {"mark": {"type": "bar", "width":50 , "fill": "#beaed4"},
+    "encoding": {
+      "x": {
+        "field": "label", 
+        "type": "nominal"},
+      "y": { 
+        "aggregate": "mean",
+        "field": "bar4",
+        "type": "quantitative"},
+        "tooltip": [
+          {"field": "income_label", "type": "nominal", 
+          "title": "Scoring metric"},
+          {"field": "2_5_weight", "type": "nominal",
+          "title": "Weight"},
+          {"aggregate": "mean", "field": "income_score","format": ".4" ,"type": "quantitative", 
+          "title":"Weighted average score"},
+          {"aggregate": "mean", "field": "income2","format": ".4" ,"type": "quantitative", 
+          "title":"Average score"}
+        ]
+    }} ,
+    {"mark": {"type": "bar", "width":50, "fill": "#fdc086"},
+    "encoding": {
+      "x": {
+        "field": "label", 
+        "type": "nominal"},
+      "y": { 
+        "aggregate": "mean",
+        "field": "bar3",
+        "type": "quantitative"},
+        "tooltip": [
+          {"field": "citations_label", "type": "nominal", 
+          "title": "Scoring metric"},
+          {"field": "30_weight", "type": "nominal",
+          "title": "Weight"},
+          {"aggregate": "mean", "field": "citations_score","format": ".4" ,"type": "quantitative", 
+          "title":"Weighted average score"},
+          {"aggregate": "mean", "field": "citations","format": ".4" ,"type": "quantitative", 
+          "title":"Average score"}
+        ]
+    }} ,
+    {"mark": {"type": "bar", "width":50, "fill": "#386cb0"},
+    "encoding": {
+      "x": {
+        "field": "label", 
+        "type": "nominal"},
+      "y": { 
+        "aggregate": "mean",
+        "field": "bar2",
+        "type": "quantitative"},
+        "tooltip": [
+          {"field": "research_label", "type": "nominal", 
+          "title": "Scoring metric"},
+          {"field": "30_weight", "type": "nominal",
+          "title": "Weight"},
+          {"aggregate": "mean", "field": "research_score","format": ".4" ,"type": "quantitative", 
+          "title":"Weighted average score"},
+          {"aggregate": "mean", "field": "research","format": ".4" ,"type": "quantitative", 
+          "title":"Average score"}
+        ]
+    }},
+    {"mark": {"type": "bar", "width":50, "fill": "#bf5b17"},
+    "encoding": {
+      "x": {
+        "field": "label", 
+        "type": "nominal"},
+      "y": { 
+        "aggregate": "mean",
+        "field": "bar1",
+        "type": "quantitative"},
+        "tooltip": [
+          {"field": "teaching_label", "type": "nominal", 
+          "title": "Scoring metric"},
+          {"field": "30_weight", "type": "nominal",
+          "title": "Weight"},
+          {"aggregate": "mean", "field": "teaching_score","format": ".4" ,"type": "quantitative", 
+          "title":"Weighted average score"},
+          {"aggregate": "mean", "field": "teaching","format": ".4" ,"type": "quantitative", 
+          "title":"Average score"}
+        ]
+    }} ,
+    {"mark": {"type": "text", "align": "center", "dx": 0, "dy": -20, "fill": "black", "fontWeight": "bold"},
+    "encoding": {"text": {"aggregate": "mean","field":"total_score", "type": "nominal", "format": ".4"},
+    "size": {"value" : 15}
+    }}
+  ]
+}
