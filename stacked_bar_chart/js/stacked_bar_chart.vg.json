@@ -8,7 +8,7 @@
     "fontSize": 24,
     "subtitleFontSize": 15},
   "data": {
-    "url": "https://raw.githubusercontent.com/wtah0001/FIT3179_Homework_9/main/data/viz2_data.csv"
+    "url": "https://raw.githubusercontent.com/wtah0001/FIT3179_Assignment_2/main/datasets/viz2_data.csv"
   },
   "params": [
     {
