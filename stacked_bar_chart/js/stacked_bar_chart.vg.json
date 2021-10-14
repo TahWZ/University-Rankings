@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 950,
+  "width": 420,
   "height": 500,
   "title": {
     "text" : "Times Higher Education rankings",
