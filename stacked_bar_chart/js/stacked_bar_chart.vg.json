@@ -1,12 +1,10 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 420,
+  "width": 392,
   "height": 500,
   "title": {
-    "text" : "Times Higher Education rankings",
-    "subtitle": "Weight distribution of total score",
-    "fontSize": 24,
-    "subtitleFontSize": 15},
+    "text": "Weight distribution of total score",
+    "fontSize": 21},
   "data": {
     "url": "https://raw.githubusercontent.com/wtah0001/FIT3179_Assignment_2/main/datasets/viz2_data.csv"
   },
@@ -49,7 +47,12 @@
     {"calculate": "'Research'", "as" : "research_label"},
     {"calculate": "'2.5%'", "as" : "2_5_weight"},
     {"calculate": "'7.5%'", "as" : "7_5_weight"},
-    {"calculate": "'30%'", "as" : "30_weight"}
+    {"calculate": "'30%'", "as" : "30_weight"},
+    {"calculate": "datum.bar4 + (datum.bar5 - datum.bar4)/2", "as" : "outlook_pos"},
+    {"calculate": "datum.bar3 + (datum.bar4 - datum.bar3)/2", "as" : "income_pos"},
+    {"calculate": "datum.bar2 + (datum.bar3 - datum.bar2)/2", "as" : "citations_pos"},
+    {"calculate": "datum.bar1 + (datum.bar2 - datum.bar1)/2", "as" : "teaching_pos"},
+    {"calculate": "datum.bar1/2", "as" : "research_pos"}
   ],
   "encoding": {
     "x": {
@@ -187,9 +190,35 @@
           "title":"Average score"}
         ]
     }} ,
-    {"mark": {"type": "text", "align": "center", "dx": 0, "dy": -20, "fill": "black", "fontWeight": "bold"},
-    "encoding": {"text": {"aggregate": "mean","field":"total_score", "type": "nominal", "format": ".4"},
-    "size": {"value" : 15}
+    {"mark": {"type": "text", "align": "center", "dx": 0, "dy": 0, "fill": "black", "fontWeight": "bold"},
+    "encoding": {
+      "text": {"aggregate": "mean","field":"teaching_score", "type": "quantitative", "format": ".4"}, 
+      "y":{"aggregate": "mean", "field": "teaching_pos", "type": "quantitative"},
+    "size": {"value" : 12}
+    }},
+    {"mark": {"type": "text", "align": "center", "dx": 0, "dy": 0, "fill": "black", "fontWeight": "bold"},
+    "encoding": {
+      "text": {"aggregate": "mean","field":"research_score", "type": "quantitative", "format": ".4"}, 
+      "y":{"aggregate": "mean", "field": "research_pos", "type": "quantitative"},
+    "size": {"value" : 12}
+    }},
+    {"mark": {"type": "text", "align": "center", "dx": 0, "dy": 0, "fill": "black", "fontWeight": "bold"},
+    "encoding": {
+      "text": {"aggregate": "mean","field":"citations_score", "type": "quantitative", "format": ".4"}, 
+      "y":{"aggregate": "mean", "field": "citations_pos", "type": "quantitative"},
+    "size": {"value" : 12}
+    }},
+    {"mark": {"type": "text", "align": "center", "dx": 0, "dy": 0, "fill": "black", "fontWeight": "bold"},
+    "encoding": {
+      "text": {"aggregate": "mean","field":"income_score", "type": "quantitative", "format": ".4"}, 
+      "y":{"aggregate": "mean", "field": "income_pos", "type": "quantitative"},
+    "size": {"value" : 12}
+    }},
+    {"mark": {"type": "text", "align": "center", "dx": 0, "dy": 0, "fill": "black", "fontWeight": "bold"},
+    "encoding": {
+      "text": {"aggregate": "mean","field":"outlook_score", "type": "quantitative", "format": ".4"}, 
+      "y":{"aggregate": "mean", "field": "outlook_pos", "type": "quantitative"},
+    "size": {"value" : 12}
     }}
   ]
 }

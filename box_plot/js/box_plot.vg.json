@@ -1,12 +1,10 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 420,
+  "width": 414,
   "height": 520,
   "title": {
-    "text" : "Distribution of Metric Scores in Every Continent",
-    "subtitle": "Based on THE University Rankings in 2016",
-    "fontSize": 24,
-    "subtitleFontSize": 15},
+    "text" : "Distribution of Metric Scores by Continent",
+    "fontSize": 21},
   "data": {
     "url": "https://raw.githubusercontent.com/wtah0001/FIT3179_Assignment_2/main/datasets/viz2_data.csv"
   },

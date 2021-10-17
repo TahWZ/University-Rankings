@@ -2,11 +2,9 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
     "text" : "Percentage of Top Ranking Universities in Every Country",
-    "subtitle": "The location of Universities within the Top 1000 World Rank",
-    "fontSize": 24,
-    "subtitleFontSize": 15
+    "fontSize": 21
   },
-  "width": 980,
+  "width": 1002,
   "height": 500,
   "data": {
     "url": "https://raw.githubusercontent.com/wtah0001/FIT3179_Assignment_2/main/choropleth_map/js/countries.topojson",

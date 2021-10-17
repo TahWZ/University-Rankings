@@ -35,7 +35,13 @@ h2 {
 	position: relative;
 	justify-content: center;
 	align-items: center;
-	margin-left: 2%;
+	margin-left: 20px;
+}
+
+.vis_container2{
+	position: relative;
+	justify-content: center;
+	align-items: center;
 }
 
 h3 {
@@ -52,9 +58,9 @@ h3 {
 .body_text {
 	font-family: 'Noto Sans Display', sans-serif;
 	padding-top: 20px;
-	padding-left: 30px;
+	padding-left: 20px;
 	padding-right: 30px;
-	padding-bottom: 20px;
+	padding-bottom: 30px;
 	font-size: 18px;
 }
 

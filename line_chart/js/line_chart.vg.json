@@ -1,12 +1,10 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 1000,
+  "width": 1074,
   "height": 500,
   "title": {
     "text" : "Total score of the Global Top 20 Universities",
-    "subtitle": "Changes in score and ranking each year",
-    "fontSize": 24,
-    "subtitleFontSize": 15},
+    "fontSize": 21},
   "data": {
     "url": "https://raw.githubusercontent.com/wtah0001/FIT3179_Assignment_2/main/datasets/viz2_data.csv"
   },
